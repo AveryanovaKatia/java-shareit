@@ -1,10 +1,10 @@
-package ru.practicum.shareit.item.model;
+package ru.practicum.shareit.review.model;
 
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
-import ru.practicum.shareit.user.model.User;
+import org.apache.catalina.User;
 
 /**
  * TODO Sprint add-controllers.
@@ -12,19 +12,13 @@ import ru.practicum.shareit.user.model.User;
 @Data
 @EqualsAndHashCode(exclude = {"id"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Item {
+public class Review {
 
     Integer id;
 
-    String name;
+    String message;
 
-    String description;
+    User author;
 
     User owner;
-
-    Boolean available;
-
-    //String request;
-
-    // Integer countShare; появится с бд
 }
