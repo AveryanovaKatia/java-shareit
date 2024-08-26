@@ -48,7 +48,7 @@ public class UserServiceTest {
     @AfterEach
     public void deleteUsers() {
         Integer count = 1;
-        while(!userService.findAll().isEmpty()) {
+        while (!userService.findAll().isEmpty()) {
             userService.delete(count);
             count++;
         }
