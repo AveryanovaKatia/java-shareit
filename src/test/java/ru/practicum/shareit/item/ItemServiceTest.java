@@ -70,7 +70,7 @@ public class ItemServiceTest {
     @AfterEach
     public void deleteUsers() {
         Integer countUser = 1;
-        while(!userService.findAll().isEmpty()) {
+        while (!userService.findAll().isEmpty()) {
             userService.delete(countUser);
             countUser++;
         }
