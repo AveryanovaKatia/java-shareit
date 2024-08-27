@@ -23,8 +23,4 @@ public class Item {
     User owner;
 
     Boolean available;
-
-    //String request;
-
-    // Integer countShare; появится с бд
 }

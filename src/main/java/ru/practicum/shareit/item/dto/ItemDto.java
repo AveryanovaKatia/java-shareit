@@ -27,8 +27,4 @@ public class ItemDto {
 
     @NotNull(groups = {CreateGroup.class})
     Boolean available;
-
-    //String request;
-
-   // Integer countShare; появится с бд
 }
