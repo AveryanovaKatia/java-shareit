@@ -1,26 +1,31 @@
-package ru.practicum.shareit.item.model;
+package ru.practicum.shareit.booking.model;
 
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
+import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
+import java.time.LocalDate;
+
 /**
- * TODO Sprint add-controllers.
+ * TODO Sprint add-bookings.
  */
 @Data
 @EqualsAndHashCode(exclude = {"id"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Item {
+public class Booking {
 
     Integer id;
 
-    String name;
+    LocalDate start;
 
-    String description;
+    LocalDate end;
 
-    User owner;
+    Item item;
 
-    Boolean available;
+    User booker;
+
+    Integer status;
 }

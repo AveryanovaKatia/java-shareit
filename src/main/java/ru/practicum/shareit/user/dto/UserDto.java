@@ -1,21 +1,17 @@
-package ru.practicum.shareit.item.dto;
+package ru.practicum.shareit.user.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
 import ru.practicum.shareit.group.CreateGroup;
 
-/**
- * TODO Sprint add-controllers.
- */
-
 @Data
 @EqualsAndHashCode(exclude = {"id"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ItemDto {
+public class UserDto {
 
     Integer id;
 
@@ -23,8 +19,7 @@ public class ItemDto {
     String name;
 
     @NotBlank(groups = {CreateGroup.class})
-    String description;
-
-    @NotNull(groups = {CreateGroup.class})
-    Boolean available;
+    @Email(groups = {CreateGroup.class})
+    @Email(message = "Емейл должен содержать @ и наименование")
+    String email;
 }
