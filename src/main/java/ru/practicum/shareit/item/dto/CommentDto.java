@@ -1,24 +1,24 @@
-package ru.practicum.shareit.review.model;
+package ru.practicum.shareit.item.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
-import org.apache.catalina.User;
 
-/**
- * TODO Sprint add-controllers.
- */
+import java.time.LocalDateTime;
+
 @Data
 @EqualsAndHashCode(exclude = {"id"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Review {
+public class CommentDto {
 
     Integer id;
 
-    String message;
+    @NotBlank
+    String text;
 
-    User author;
+    String authorName;
 
-    User owner;
+    LocalDateTime created;
 }
