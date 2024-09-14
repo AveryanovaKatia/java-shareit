@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface UserService {
 
-    UserDto create(final UserDto userDto);
+    UserDto save(final UserDto userDto);
 
     UserDto update(final Integer userId, final UserDto userDto);
 
-    UserDto getById(final Integer userId);
+    UserDto findById(final Integer userId);
 
     List<UserDto> findAll();
 

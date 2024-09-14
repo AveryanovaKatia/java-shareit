@@ -1,26 +1,33 @@
 package ru.practicum.shareit.item.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
-import ru.practicum.shareit.group.CreateGroup;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(exclude = {"id"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ItemDto {
+public class ItemResponce {
 
     Integer id;
 
-    @NotBlank(groups = {CreateGroup.class})
     String name;
 
-    @NotBlank(groups = {CreateGroup.class})
     String description;
 
-    @NotNull(groups = {CreateGroup.class})
     Boolean available;
+
+    String ownerName;
+
+    LocalDateTime lastBooking;
+
+    LocalDateTime nextBooking;
+
+    List<CommentDto> comments = new ArrayList<>();
 }
+
