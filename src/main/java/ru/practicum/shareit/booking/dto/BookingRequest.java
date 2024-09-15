@@ -3,7 +3,6 @@ package ru.practicum.shareit.booking.dto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
