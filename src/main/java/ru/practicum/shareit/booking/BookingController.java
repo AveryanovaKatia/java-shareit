@@ -1,9 +1,7 @@
 package ru.practicum.shareit.booking;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,40 +28,41 @@ import java.util.List;
 @RequestMapping(path = "/bookings")
 @RequiredArgsConstructor
 @Validated
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class BookingController {
 
-    BookingService bookingService;
+    private final BookingService bookingService;
+
+    final static String HEADER = "X-Sharer-User-Id";
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BookingResponce saveRequest(@RequestHeader("X-Sharer-User-Id") @NotNull final Integer userId,
+    public BookingResponce saveRequest(@RequestHeader(HEADER) @NotNull final Integer userId,
                                 @RequestBody final BookingRequest bookingRequest) {
         return bookingService.saveRequest(bookingRequest, userId);
 
     }
 
     @PatchMapping("/{bookingId}")
-    public BookingResponce approved(@RequestHeader("X-Sharer-User-Id") @NotNull final Integer ownerId,
+    public BookingResponce approved(@RequestHeader(HEADER) @NotNull final Integer ownerId,
                                     @PathVariable final Integer bookingId,
                                     @RequestParam final boolean approved) {
         return bookingService.approved(ownerId, bookingId, approved);
     }
 
     @GetMapping("/{bookingId}")
-    public BookingResponce findById(@RequestHeader("X-Sharer-User-Id") @NotNull final Integer userId,
+    public BookingResponce findById(@RequestHeader(HEADER) @NotNull final Integer userId,
                             @PathVariable final Integer bookingId) {
         return bookingService.findById(userId, bookingId);
     }
 
     @GetMapping
-    public List<BookingResponce> findAllByUserId(@RequestHeader("X-Sharer-User-Id") @NotNull final Integer userId,
+    public List<BookingResponce> findAllByUserId(@RequestHeader(HEADER) @NotNull final Integer userId,
                                            @RequestParam(defaultValue = "all") final String state) {
         return bookingService.findAllByUserId(userId, state);
     }
 
     @GetMapping("/owner")
-    public List<BookingResponce> findAllByOwnerId(@RequestHeader("X-Sharer-User-Id") @NotNull final Integer ownerId,
+    public List<BookingResponce> findAllByOwnerId(@RequestHeader(HEADER) @NotNull final Integer ownerId,
                                                   @RequestParam(defaultValue = "all") final String state) {
         return bookingService.findAllByOwnerId(ownerId, state);
     }

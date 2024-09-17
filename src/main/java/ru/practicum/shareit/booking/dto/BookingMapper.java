@@ -14,7 +14,7 @@ public class BookingMapper {
 
     public Booking toBooking(final BookingRequest bookingRequest, final User user, final Item item) {
 
-        Booking booking = new Booking();
+        final Booking booking = new Booking();
 
         booking.setStart(bookingRequest.getStart());
         booking.setEnd(bookingRequest.getEnd());
@@ -28,7 +28,7 @@ public class BookingMapper {
     public BookingResponce toBookingResponce(final Booking booking, final UserDto userDto,
                                              final ItemDto itemDto) {
 
-        BookingResponce bookingResponce = new BookingResponce();
+        final BookingResponce bookingResponce = new BookingResponce();
 
         bookingResponce.setId(booking.getId());
         bookingResponce.setStart(booking.getStart());
