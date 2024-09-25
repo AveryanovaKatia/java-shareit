@@ -21,6 +21,8 @@ import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.CommentRepository;
 import ru.practicum.shareit.item.repository.ItemRepository;
+import ru.practicum.shareit.request.model.ItemRequest;
+import ru.practicum.shareit.request.repository.ItemRequestRepository;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
@@ -49,6 +51,8 @@ public class ItemServiceImpl implements ItemService {
 
     BookingRepository bookingRepository;
 
+    ItemRequestRepository itemRequestRepository;
+
     @Override
     @Transactional
     public ItemDto save(final Integer ownerId, final ItemDto itemDto) {
@@ -56,6 +60,11 @@ public class ItemServiceImpl implements ItemService {
         final User owner = userRepository.findById(ownerId)
                 .orElseThrow(() -> new NotFoundException("Пользователя с id = {} нет." + ownerId));
         final Item item = itemRepository.save(itemMapper.toItem(owner, itemDto));
+        if (Objects.nonNull(itemDto.getRequestId())) {
+            final ItemRequest itemRequest = itemRequestRepository.findById(itemDto.getRequestId())
+                    .orElseThrow(() -> new NotFoundException("Запроса с id = {} нет." + itemDto.getRequestId()));
+        item.setRequest(itemRequest);
+        }
         log.info("Вещь успешно добавлена под id {}", item.getId());
         return itemMapper.toItemDto(item);
     }

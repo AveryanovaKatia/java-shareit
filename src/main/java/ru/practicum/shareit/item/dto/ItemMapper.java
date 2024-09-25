@@ -47,4 +47,15 @@ public class ItemMapper {
 
         return itemResponce;
     }
+
+    public ItemDtoResponceForIR toItemDtoResponceForIR(Item item) {
+
+        final ItemDtoResponceForIR itemDtoResponceForIR = new ItemDtoResponceForIR();
+
+        itemDtoResponceForIR.setItemId(item.getId());
+        itemDtoResponceForIR.setOwnerId(item.getOwner().getId());
+        itemDtoResponceForIR.setName(item.getName());
+
+        return itemDtoResponceForIR;
+    }
 }

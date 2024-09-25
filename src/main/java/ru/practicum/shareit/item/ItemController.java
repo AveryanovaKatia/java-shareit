@@ -25,9 +25,6 @@ import ru.practicum.shareit.item.service.ItemService;
 
 import java.util.List;
 
-/**
- * TODO Sprint add-controllers.
- */
 @RestController
 @RequestMapping("/items")
 @RequiredArgsConstructor
@@ -41,7 +38,7 @@ public class ItemController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ItemDto save(@RequestHeader(HEADER) @NotNull final Integer ownerId,
-                          @Validated(CreateGroup.class) @RequestBody final ItemDto itemDto) {
+                        @Validated(CreateGroup.class) @RequestBody final ItemDto itemDto) {
         return itemService.save(ownerId, itemDto);
     }
 

@@ -23,4 +23,6 @@ public class ItemDto {
 
     @NotNull(groups = {CreateGroup.class})
     Boolean available;
+
+    Integer requestId;
 }
