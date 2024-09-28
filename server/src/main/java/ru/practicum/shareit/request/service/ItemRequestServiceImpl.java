@@ -64,7 +64,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
         log.info("Запрос на получение всех запросов пользователя с id = {} и все ответы на них", userId);
         final List<ItemRequest> itemRequests = itemRequestRepository.findAllByRequestorId(userId, sort);
         List<ItemRequestResponceDto> list = new ArrayList<>();
-        for(ItemRequest itemRequest : itemRequests) {
+        for (ItemRequest itemRequest : itemRequests) {
             final ItemRequestResponceDto itemRequestResponceDto =
                     itemRequestMapper.toItemRequestResponceDto(itemRequest);
             final List<ItemDtoResponceForIR> items = itemRepository.findAllByRequest(itemRequest)
@@ -85,7 +85,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
         final List<ItemRequest> itemRequests = itemRequestRepository.findAllByRequestorIdNot(userId, sort);
         log.info("Получены все запросы кроме запросов пользователя с id = {}", userId);
         final List<ItemRequestResponceDto> list = new ArrayList<>();
-        for(ItemRequest itemRequest : itemRequests) {
+        for (ItemRequest itemRequest : itemRequests) {
            final ItemRequestResponceDto itemRequestResponceDto =
                    itemRequestMapper.toItemRequestResponceDto(itemRequest);
            itemRequestResponceDto.setRequestor(userMapper.toUserDto(itemRequest.getRequestor()));
