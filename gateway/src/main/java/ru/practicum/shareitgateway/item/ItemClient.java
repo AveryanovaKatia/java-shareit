@@ -58,7 +58,7 @@ public class ItemClient extends BaseClient {
         return get("/search?text={text}", Long.valueOf(userId), parameters);
     }
 
-    public ResponseEntity<Object> saveComment (final Integer userId,
+    public ResponseEntity<Object> saveComment(final Integer userId,
                                                final Integer itemId,
                                                final CommentDto commentDto) {
         return post("/" + itemId + "/comment", userId, commentDto);
