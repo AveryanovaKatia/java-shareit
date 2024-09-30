@@ -30,7 +30,7 @@ public class ItemController {
 
     private final ItemClient itemClient;
 
-    static final String HEADER = "X-Sharer-User-Id";
+    private static final String HEADER = "X-Sharer-User-Id";
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

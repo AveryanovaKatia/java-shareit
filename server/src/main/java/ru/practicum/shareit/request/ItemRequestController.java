@@ -21,7 +21,7 @@ public class ItemRequestController {
 
     private final ItemRequestService itemRequestService;
 
-    static final String HEADER = "X-Sharer-User-Id";
+    private static final String HEADER = "X-Sharer-User-Id";
 
     @PostMapping
     public ItemRequestResponceDto saveItemRequest(@RequestHeader(HEADER) final Integer userId,
