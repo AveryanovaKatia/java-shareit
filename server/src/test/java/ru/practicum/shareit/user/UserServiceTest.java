@@ -1,101 +1,180 @@
 package ru.practicum.shareit.user;
 
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ImportResource;
-import org.springframework.test.annotation.DirtiesContext;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.user.dto.UserMapper;
+import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.user.repository.UserRepository;
 import ru.practicum.shareit.user.service.UserService;
+import ru.practicum.shareit.user.service.UserServiceImpl;
+
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
-@ImportResource
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@ExtendWith(MockitoExtension.class)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserServiceTest {
 
     UserService userService;
 
-    @BeforeEach
-    public void createUsers() {
+    UserMapper userMapper;
 
-        UserDto userDto1 = new UserDto();
-        userDto1.setName("Katia");
-        userDto1.setEmail("gromgrommolnia@mail.ru");
+    @Mock
+    UserRepository userRepository;
+
+    UserDto userDto1;
+
+    User user1;
+
+    @BeforeEach
+    public void setUp() {
+
+        userMapper = new UserMapper();
+
+        userService = new UserServiceImpl(userRepository, userMapper);
+
+        userDto1 = new UserDto();
+        userDto1.setName("Mia");
+        userDto1.setEmail("midnight@mail.ru");
+
+        user1 = new User();
+        user1.setName("Mia");
+        user1.setEmail("midnight@yandex.ru");
+        user1.setId(1);
+    }
+
+
+    @Test
+    @DisplayName("UserService_create")
+    void testCreate() {
+
+        when(userRepository.save(userMapper.toUser(userDto1))).thenReturn(user1);
+
+        final UserDto userDto = userService.save(userDto1);
+
+        assertEquals("Mia", userDto.getName());
+        assertEquals(1, userDto.getId());
+    }
+
+    @Test
+    @DisplayName("UserService_findById")
+    void testFindById() {
+
+        when(userRepository.findById(1)).thenReturn(Optional.of(user1));
+
+        assertEquals("Mia", userService.findById(1).getName());
+    }
+
+    @Test
+    @DisplayName("UserService_findByIdNotUser")
+    void testFindByIdNotUser() {
+
+        assertThrows(
+                NotFoundException.class,
+                () -> userService.findById(3)
+        );
+    }
+
+    @Test
+    @DisplayName("UserService_updateNotUser")
+    void testUpdateNotUser() {
+
+        assertThrows(
+                NotFoundException.class,
+                () -> userService.update(1, userDto1)
+        );
+    }
+
+
+    @Test
+    @DisplayName("UserService_updateSetName")
+    void testUpdateSetName() {
+
+        final UserDto userDto2 = new UserDto();
+        userDto2.setName("NeMia");
+
+        final User user2 = new User();
+        user2.setName("NeMia");
+        user2.setEmail("midnight@yandex.ru");
+        user2.setId(1);
+
+        when(userRepository.save(userMapper.toUser(userDto1))).thenReturn(user1);
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(user1));
+        when(userRepository.save(user2)).thenReturn(user2);
+
         userService.save(userDto1);
 
-        UserDto userDto2 = new UserDto();
-        userDto2.setName("Nika");
-        userDto2.setEmail("moemore@mail.ru");
-        userService.save(userDto2);
+        final UserDto userDto = userService.update(1, userDto2);
 
-        UserDto userDto = new UserDto();
-        userDto.setName("Mia");
-        userDto.setEmail("midnight@mail.ru");
-        userService.save(userDto);
-    }
-
-
-    @Test
-    @Order(1)
-    @DirtiesContext
-    @DisplayName("UserService_create")
-    void createTest() {
-        assertEquals(3, userService.findAll().size());
+        assertEquals("NeMia", userDto.getName());
     }
 
     @Test
-    @Order(2)
-    @DirtiesContext
-    @DisplayName("UserService_update")
-    void updateTest() {
-        UserDto userDto1 = new UserDto();
-        userDto1.setName("NeMia");
-        userDto1.setEmail("neMidnight@mail.ru");
-        userService.update(3, userDto1);
+    @DisplayName("UserService_updateSetEmail")
+    void testUpdateSetEmail() {
 
-        assertEquals("NeMia", userService.findById(3).getName());
-        assertEquals("neMidnight@mail.ru", userService.findById(3).getEmail());
+        final UserDto userDto3 = new UserDto();
+        userDto3.setEmail("neMidnight@mail.ru");
 
-        UserDto userDto2 = new UserDto();
-        userDto2.setName("Ania");
-        userService.update(3, userDto2);
+        final User user3 = new User();
+        user3.setName("Mia");
+        user3.setEmail("neMidnight@mail.ru");
+        user3.setId(1);
 
-        assertEquals("Ania", userService.findById(3).getName());
+        when(userRepository.save(userMapper.toUser(userDto1))).thenReturn(user1);
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(user1));
+        when(userRepository.save(user3)).thenReturn(user3);
 
-        UserDto userDto3 = new UserDto();
-        userDto3.setEmail("night@mail.ru");
-        userService.update(3, userDto3);
+        userService.save(userDto1);
 
-        assertEquals("night@mail.ru", userService.findById(3).getEmail());
+        final UserDto userDto = userService.update(1, userDto3);
+
+        assertEquals("neMidnight@mail.ru", userDto.getEmail());
     }
 
     @Test
-    @Order(3)
-    @DirtiesContext
-    @DisplayName("UserService_getById")
-    void getByIdTest() {
-        assertEquals("Katia", userService.findById(1).getName());
+    @DisplayName("UserService_findAll")
+    void testFindAll() {
+        when(userRepository.findAll()).thenReturn(List.of(user1));
+
+        final List<UserDto> users = userService.findAll();
+
+        assertEquals(1, users.size());
     }
 
     @Test
-    @Order(4)
-    @DirtiesContext
+    @DisplayName("UserService_deleteNotUser")
+    void testDeleteNotUser() {
+
+        assertThrows(
+                NotFoundException.class,
+                () -> userService.delete(3)
+        );
+    }
+
+    @Test
     @DisplayName("UserService_delete")
-    void deleteTest() {
-        userService.delete(3);
+    void testDelete() {
 
-        assertEquals(2, userService.findAll().size());
+        when(userRepository.findById(1)).thenReturn(Optional.of(user1));
+
+        userService.delete(1);
+
+        verify(userRepository).delete(any(User.class));
     }
 }

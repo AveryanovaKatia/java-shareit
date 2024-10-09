@@ -50,12 +50,12 @@ class ItemRequestControllerTest {
     @Order(1)
     @DirtiesContext
     @DisplayName("ItemRequestController_saveItemRequest")
-    void saveItemRequestTest() throws Exception {
+    void testSaveItemRequest() throws Exception {
 
-        ItemRequestDto requestDto = new ItemRequestDto();
+        final ItemRequestDto requestDto = new ItemRequestDto();
         requestDto.setDescription("Bla-bla-bla");
 
-        ItemRequestResponceDto responceDto = new ItemRequestResponceDto();
+        final ItemRequestResponceDto responceDto = new ItemRequestResponceDto();
         responceDto.setId(1);
         responceDto.setDescription("Bla-bla-bla");
         responceDto.setCreated(LocalDateTime.now());
@@ -77,8 +77,9 @@ class ItemRequestControllerTest {
     @Order(2)
     @DirtiesContext
     @DisplayName("ItemRequestController_getAllByUser")
-    void getAllByUserTest() throws Exception {
-        List<ItemRequestResponceDto> requests = List.of(new ItemRequestResponceDto()); // создайте список
+    void testGetAllByUser() throws Exception {
+
+        final List<ItemRequestResponceDto> requests = List.of(new ItemRequestResponceDto());
 
         when(itemRequestService.getAllByUser(anyInt())).thenReturn(requests);
 
@@ -94,8 +95,9 @@ class ItemRequestControllerTest {
     @Order(3)
     @DirtiesContext
     @DisplayName("ItemRequestController_getAll")
-    void getAllTest() throws Exception {
-        List<ItemRequestResponceDto> responceDtos = List.of(new ItemRequestResponceDto());
+    void testGetAll() throws Exception {
+
+        final List<ItemRequestResponceDto> responceDtos = List.of(new ItemRequestResponceDto());
 
         when(itemRequestService.getAll(anyInt())).thenReturn(responceDtos);
 
@@ -111,8 +113,9 @@ class ItemRequestControllerTest {
     @Order(4)
     @DirtiesContext
     @DisplayName("ItemRequestController_getById")
-    void getByIdTest() throws Exception {
-        ItemRequestResponceDto request = new ItemRequestResponceDto(); // создайте DTO
+    void testGetById() throws Exception {
+
+        final ItemRequestResponceDto request = new ItemRequestResponceDto(); // создайте DTO
 
         when(itemRequestService.getById(anyInt())).thenReturn(request);
 

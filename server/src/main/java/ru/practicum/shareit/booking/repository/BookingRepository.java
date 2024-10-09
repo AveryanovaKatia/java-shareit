@@ -13,25 +13,25 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     List<Booking> findAllByBookerId(final Integer userId, Sort sort);
 
-    List<Booking> findAllByBookerIdAndEndBeforeAndStartAfter(final Integer userId, final LocalDateTime time1,
+    List<Booking> findAllByBookerIdAndStartBeforeAndEndAfter(final Integer userId, final LocalDateTime time1,
                                                              final LocalDateTime time2, Sort sort);
 
     List<Booking> findAllByBookerIdAndEndBefore(final Integer userId, final LocalDateTime time, Sort sort);
 
     List<Booking> findAllByBookerIdAndStartAfter(final Integer userId, final LocalDateTime time, Sort sort);
 
-    List<Booking> findAllByBookerIdAndStatusIs(final Integer userId, final String status, Sort sort);
+    List<Booking> findAllByBookerIdAndStatusIs(final Integer userId, final Status status, Sort sort);
 
     List<Booking> findAllByItemOwnerId(final Integer userId, Sort sort);
 
-    List<Booking> findAllByItemOwnerIdAndEndBeforeAndStartAfter(final Integer userId, final LocalDateTime time1,
+    List<Booking> findAllByItemOwnerIdAndStartBeforeAndEndAfter(final Integer userId, final LocalDateTime time1,
                                                             final LocalDateTime time2, Sort sort);
 
     List<Booking> findAllByItemOwnerIdAndEndBefore(final Integer userId, final LocalDateTime time, Sort sort);
 
     List<Booking> findAllByItemOwnerIdAndStartAfter(final Integer userId, final LocalDateTime time, Sort sort);
 
-    List<Booking> findAllByItemOwnerIdAndStatusIs(final Integer userId, final String status, Sort sort);
+    List<Booking> findAllByItemOwnerIdAndStatusIs(final Integer userId, final Status status, Sort sort);
 
     List<Booking> findAllByBookerIdAndItemIdAndStatusEqualsAndEndIsBefore(final Integer userId,
                                                                           final Integer itemId, final Status status,

@@ -6,6 +6,7 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
 import java.util.List;
+import java.util.Objects;
 
 @Setter
 @Component
@@ -31,6 +32,9 @@ public class ItemMapper {
         itemDto.setName(item.getName());
         itemDto.setDescription(item.getDescription());
         itemDto.setAvailable(item.getAvailable());
+        if (Objects.nonNull(item.getRequest())) {
+            itemDto.setRequestId(item.getRequest().getId());
+        }
 
         return itemDto;
     }

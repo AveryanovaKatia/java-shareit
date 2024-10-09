@@ -48,8 +48,10 @@ class UserControllerTest {
     @Order(1)
     @DirtiesContext
     @DisplayName("UserController_save")
-    void saveTest() throws Exception {
+    void testSave() throws Exception {
+
         final UserDto userDto = new UserDto();
+
         when(userService.save(any(UserDto.class))).thenReturn(userDto);
 
         mockMvc.perform(post("/users")
@@ -65,8 +67,10 @@ class UserControllerTest {
     @Order(2)
     @DirtiesContext
     @DisplayName("UserController_update")
-    void updateTest() throws Exception {
+    void testUpdate() throws Exception {
+
         final UserDto userDto = new UserDto();
+
         when(userService.update(anyInt(), any(UserDto.class))).thenReturn(userDto);
 
         mockMvc.perform(patch("/users/1")
@@ -82,8 +86,10 @@ class UserControllerTest {
     @Order(3)
     @DirtiesContext
     @DisplayName("UserController_findById")
-    void findByIdTest() throws Exception {
+    void testFindById() throws Exception {
+
         final UserDto userDto = new UserDto();
+
         when(userService.findById(anyInt())).thenReturn(userDto);
 
         mockMvc.perform(get("/users/1"))
@@ -97,8 +103,10 @@ class UserControllerTest {
     @Order(4)
     @DirtiesContext
     @DisplayName("UserController_findAll")
-    void findAllTest() throws Exception {
-        List<UserDto> users = List.of(new UserDto());
+    void testFindAll() throws Exception {
+
+        final List<UserDto> users = List.of(new UserDto());
+
         when(userService.findAll()).thenReturn(users);
 
         mockMvc.perform(get("/users"))
@@ -112,7 +120,8 @@ class UserControllerTest {
     @Order(4)
     @DirtiesContext
     @DisplayName("UserController_delete")
-    void deleteTest() throws Exception {
+    void testDelete() throws Exception {
+
         mockMvc.perform(delete("/users/1"))
                 .andExpect(status().isNoContent());
 

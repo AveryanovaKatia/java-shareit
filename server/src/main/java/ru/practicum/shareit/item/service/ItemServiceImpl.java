@@ -39,11 +39,11 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ItemServiceImpl implements ItemService {
 
-    UserRepository userRepository;
-
     ItemRepository itemRepository;
 
     ItemMapper itemMapper;
+
+    UserRepository userRepository;
 
     CommentRepository commentRepository;
 
@@ -101,7 +101,7 @@ public class ItemServiceImpl implements ItemService {
         log.info("Запрос на получение вещи с id {}", itemId);
         final Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException("Вещи с id = {} нет." + itemId));
-        List<CommentDto> commentsDto = commentRepository.findAllByItemId(itemId).stream()
+        final List<CommentDto> commentsDto = commentRepository.findAllByItemId(itemId).stream()
                 .map(commentMapper::toCommentDto).collect(Collectors.toList());
         final ItemResponce itemResponce = itemMapper.toItemResponce(item, commentsDto);
         if (item.getOwner().getId().equals(ownerId)) {
@@ -161,8 +161,8 @@ public class ItemServiceImpl implements ItemService {
             throw new ValidationException("Нельзя написать отзыв если пользователь не брал в аренду вещь");
         }
         final Comment comment = commentMapper.toComment(commentDto, owner, item);
-        commentRepository.save(comment);
+        final Comment comment1 = commentRepository.save(comment);
         log.info("Пользователь с id {} оставил комментарий к вещи с id {} ", userId, itemId);
-        return commentMapper.toCommentDto(comment);
+        return commentMapper.toCommentDto(comment1);
     }
 }

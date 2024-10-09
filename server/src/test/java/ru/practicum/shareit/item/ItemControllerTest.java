@@ -28,6 +28,7 @@ import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -52,8 +53,10 @@ class ItemControllerTest {
     @Order(1)
     @DirtiesContext
     @DisplayName("ItemController_save")
-    void saveTest() throws Exception {
+    void testSave() throws Exception {
+
         final ItemDto itemDto = new ItemDto();
+
         when(itemService.save(anyInt(), any(ItemDto.class))).thenReturn(itemDto);
 
         mockMvc.perform(post("/items")
@@ -70,8 +73,10 @@ class ItemControllerTest {
     @Order(2)
     @DirtiesContext
     @DisplayName("ItemController_update")
-    void updateTest() throws Exception {
+    void testUpdate() throws Exception {
+
         final ItemDto itemDto = new ItemDto();
+
         when(itemService.update(anyInt(), anyInt(), any(ItemDto.class))).thenReturn(itemDto);
 
         mockMvc.perform(patch("/items/1")
@@ -88,8 +93,10 @@ class ItemControllerTest {
     @Order(3)
     @DirtiesContext
     @DisplayName("ItemController_findById")
-    void findByIdTest() throws Exception {
-        ItemResponce itemResponce = new ItemResponce();
+    void testFindById() throws Exception {
+
+        final ItemResponce itemResponce = new ItemResponce();
+
         when(itemService.findById(anyInt(), anyInt())).thenReturn(itemResponce);
 
         mockMvc.perform(get("/items/1")
@@ -104,8 +111,10 @@ class ItemControllerTest {
     @Order(4)
     @DirtiesContext
     @DisplayName("ItemController_getItemsByOwnerId")
-    void getItemsByOwnerIdTest() throws Exception {
-        List<ItemDto> items = List.of(new ItemDto());
+    void testGetItemsByOwnerId() throws Exception {
+
+        final List<ItemDto> items = List.of(new ItemDto());
+
         when(itemService.getItemsByOwnerId(anyInt())).thenReturn(items);
 
         mockMvc.perform(get("/items")
@@ -120,8 +129,10 @@ class ItemControllerTest {
     @Order(5)
     @DirtiesContext
     @DisplayName("ItemController_search")
-    void searchTest() throws Exception {
-        List<ItemDto> items = List.of(new ItemDto());
+    void testSearch() throws Exception {
+
+        final List<ItemDto> items = List.of(new ItemDto());
+
         when(itemService.search(anyString())).thenReturn(items);
 
         mockMvc.perform(get("/items/search")
@@ -136,8 +147,9 @@ class ItemControllerTest {
     @Order(6)
     @DirtiesContext
     @DisplayName("ItemController_saveComment")
-    void saveCommentTest() throws Exception {
-        CommentDto commentDto = new CommentDto();
+    void testSaveComment() throws Exception {
+
+        final CommentDto commentDto = new CommentDto();
         commentDto.setText("Comment-bla-bla");
 
         when(itemService.saveComment(anyInt(), anyInt(), any(CommentDto.class))).thenReturn(commentDto);
@@ -150,6 +162,19 @@ class ItemControllerTest {
                 .andExpect(jsonPath("$.text").value("Comment-bla-bla"));
 
         verify(itemService, times(1)).saveComment(anyInt(), anyInt(), any(CommentDto.class));
+    }
+
+    @Test
+    @Order(7)
+    @DirtiesContext
+    @DisplayName("ItemController_delete")
+    void testDelete() throws Exception {
+
+        mockMvc.perform(delete("/items/1")
+                        .header(HEADER, 1))
+                .andExpect(status().isNoContent());
+
+        verify(itemService, times(1)).delete(1);
     }
 }
 

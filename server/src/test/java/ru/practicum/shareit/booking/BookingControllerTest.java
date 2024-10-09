@@ -10,10 +10,12 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.practicum.shareit.ShareItServer;
 import ru.practicum.shareit.booking.dto.BookingRequest;
 import ru.practicum.shareit.booking.model.Status;
 import ru.practicum.shareit.booking.service.BookingService;
@@ -33,7 +35,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import ru.practicum.shareit.booking.dto.BookingResponce;
 
-@WebMvcTest(BookingController.class)
+@SpringBootTest(classes = ShareItServer.class)
+@AutoConfigureMockMvc
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BookingControllerTest {
@@ -54,7 +57,8 @@ public class BookingControllerTest {
     static final String HEADER = "X-Sharer-User-Id";
 
     @BeforeEach
-    public void createBeforeEach() {
+    public void setUp() {
+
         bookingResponce = new BookingResponce();
         bookingResponce.setId(1);
         bookingResponce.setStatus(Status.WAITING);
@@ -68,11 +72,12 @@ public class BookingControllerTest {
     @Test
     @Order(1)
     @DisplayName("BookingController_saveRequest")
-    public void saveRequestTest() throws Exception {
+    public void testSaveRequest() throws Exception {
+
         when(bookingService.saveRequest(any(BookingRequest.class), anyInt()))
                 .thenReturn(bookingResponce);
 
-        String bookingRequestJson = objectMapper.writeValueAsString(bookingRequest);
+        final String bookingRequestJson = objectMapper.writeValueAsString(bookingRequest);
 
         mockMvc.perform(post("/bookings")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -86,7 +91,8 @@ public class BookingControllerTest {
     @Test
     @Order(2)
     @DisplayName("BookingController_approved")
-    public void approvedTest() throws Exception {
+    public void testApproved() throws Exception {
+
         bookingResponce.setStatus(Status.APPROVED);
 
         when(bookingService.approved(anyInt(), anyInt(), anyBoolean()))
@@ -102,7 +108,8 @@ public class BookingControllerTest {
     @Test
     @Order(3)
     @DisplayName("BookingController_findById")
-    public void findByIdTest() throws Exception {
+    public void testFindById() throws Exception {
+
         when(bookingService.findById(anyInt(), anyInt()))
                 .thenReturn(bookingResponce);
 
@@ -115,7 +122,8 @@ public class BookingControllerTest {
     @Test
     @Order(4)
     @DisplayName("BookingController_findAllByUserId")
-    public void findAllByUserIdTest() throws Exception {
+    public void testFindAllByUserId() throws Exception {
+
         when(bookingService.findAllByUserId(anyInt(), anyString()))
                 .thenReturn(Collections.singletonList(bookingResponce));
 
@@ -129,7 +137,8 @@ public class BookingControllerTest {
     @Test
     @Order(4)
     @DisplayName("BookingController_findAllByOwnerId")
-    public void findAllByOwnerIdTest() throws Exception {
+    public void testFindAllByOwnerId() throws Exception {
+
         when(bookingService.findAllByOwnerId(anyInt(), anyString()))
                 .thenReturn(Collections.singletonList(bookingResponce));
 
