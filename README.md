@@ -28,21 +28,22 @@ Shareit и есть именно такой проект.
 | HTTP request                           | Method      | Description                   |
 |----------------------------------------|-------------|-------------------------------|
 | **POST** /users                        | **save**    | Добавление пользователя       |
-| **DELETE** /users/{userId}             | **delete**  | Удалить пользователя          |
 | **PATCH** /users/{userId}              | **update**  | Обновить данные пользователя  |
-| **GET** /users?from={from}&size={size} | **getAll**  | Получить список пользователей |
 | **GET** /users/{userId}                | **getById** | Получить данные пользователя  |
+| **GET** /users?from={from}&size={size} | **getAll**  | Получить список пользователей |
+| **DELETE** /users/{userId}             | **delete**  | Удалить пользователя          |
 
 ### Item
 
-| HTTP request                                                | Method                | Description                   |
-|-------------------------------------------------------------|-----------------------|-------------------------------|
-| **POST** /items                                             | **save**              | Добавление вещи               |
-| **PATCH** /items/{itemId}                                   | **update**            | Обновить данные вещи          |
-| **DELETE** /items/search?text={text}from={from}&size={size} | **search**            | Поиск вещи по значению "text" |
-| **POST** /items/{itemId}/comment                            | **saveComment**       | Добавление комментария к вещи |
-| **GET** /items?from={from}&size={size}                      | **getItemsByOwnerId** | Получить список вещей         |
-| **GET** /items/{itemId}                                     | **getById**           | Получить информацию о вещи    |
+| HTTP request                           | Method                | Description                    |
+|----------------------------------------|-----------------------|--------------------------------|
+| **POST** /items                        | **save**              | Добавление вещи                |
+| **PATCH** /items/{itemId}              | **update**            | Обновить данные вещи           |
+| **GET** /items/{itemId}                | **getById**           | Получить информацию о вещи     |
+| **DELETE** /items/{itemId}             | **delete**            | Удаление вещи                  |
+| **GET** /items?from={from}&size={size} | **getItemsByOwnerId** | Получить список вещей          |
+| **GET** /items?from={from}&size={size} | **search**            | ППоиск вещи по значению "text" |
+| **POST** /items/{itemId}/comment       | **saveComment**       | Добавление комментария к вещи  |
 
 ### Booking
 
@@ -50,16 +51,23 @@ Shareit и есть именно такой проект.
 |---------------------------------------------------------------|----------------------|--------------------------------------------------------|
 | **POST** /bookings                                            | **saveRequest**      | Добавить бронь вещи                                    |
 | **PATCH** /bookings/{bookingId}?approved={approved}           | **approved**         | Подтвердить/отклонить бронь                            |
+| **GET** /bookings/{bookingId}                                 | **findById**         | Получить информацию о брони, созданной пользователем   |
 | **GET** /bookings?state={state}&from={from}&size={size}       | **findAllByUserId**  | Получить список вещей забронированных пользователем    |
 | **GET** /bookings/owner?state={state}&from={from}&size={size} | **findAllByOwnerId** | Получить список забронированных вещей для их владельца |
-| **GET** /bookings/{bookingId}                                 | **findById**         | Получить информацию о брони, созданной пользователем   |
 
 ### Request
 
 | HTTP request                                                  | Method              | Description                                        |
 |---------------------------------------------------------------|---------------------|----------------------------------------------------|
 | **POST** /requests                                            | **saveItemRequest** | Добавить запрос на добавление вещи                 |
-| **GET** /requests/all?from={from}&size={size}                 | **getAll**          | Получить список всех запросов пользователя         |
 | **GET** /requests/owner?state={state}&from={from}&size={size} | **getAllByUser**    | Получить список всех запросов других пользователей |
+| **GET** /requests/all?from={from}&size={size}                 | **getAll**          | Получить список всех запросов пользователя         |
 | **GET** /requests/{requestId}                                 | **getById**         | Получение информации о запросе                     |
 
+## ER диаграмма
+
+![diagram.svg](diagram.svg)
+
+## Дамп БД
+- [schema.sql](src/main/resources/schema.sql)
+- [data.sql](src/main/resources/data.sql)
