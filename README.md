@@ -69,5 +69,4 @@ Shareit и есть именно такой проект.
 ![diagram.svg](diagram.svg)
 
 ## Дамп БД
-- [schema.sql](src/main/resources/schema.sql)
-- [data.sql](src/main/resources/data.sql)
+- [schema.sql](server/src/main/resources/schema.sql)
